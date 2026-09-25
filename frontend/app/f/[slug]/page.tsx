@@ -13,14 +13,14 @@
  * Design goal: Typeform's conversational, polished feel.
  */
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { api } from "@/lib/api";
 import type { Form, Question } from "@/lib/types";
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 // Answer type for local state
@@ -30,8 +30,7 @@ interface Answer {
 }
 
 export default function PublicFormPage({ params }: PageProps) {
-  const resolvedParams = use(params);
-  const slug = resolvedParams.slug;
+  const slug = params.slug;
   const router = useRouter();
 
   const [form, setForm] = useState<Form | null>(null);
@@ -252,23 +251,23 @@ export default function PublicFormPage({ params }: PageProps) {
     }
   }
 
-  // Loading state
+  // Loading state - dark theme
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-neutral-50">
-        <div className="text-neutral-500">Loading form...</div>
+      <div className="h-screen flex items-center justify-center bg-[#0a0a0a]">
+        <div className="text-neutral-400">Loading form...</div>
       </div>
     );
   }
 
-  // Form not found or not published - clean empty state
+  // Form not found or not published - dark theme
   if (!form) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="h-screen flex flex-col items-center justify-center bg-neutral-50 px-4"
+        className="h-screen flex flex-col items-center justify-center bg-[#0a0a0a] px-4"
       >
         <motion.div
           initial={{ scale: 0 }}
@@ -278,22 +277,22 @@ export default function PublicFormPage({ params }: PageProps) {
         >
           🔍
         </motion.div>
-        <h1 className="text-2xl font-semibold text-neutral-900 mb-2">Form not found</h1>
-        <p className="text-neutral-600 text-center max-w-md">
+        <h1 className="text-2xl font-semibold text-white mb-2">Form not found</h1>
+        <p className="text-neutral-400 text-center max-w-md">
           This form doesn't exist or hasn't been published yet. Please check the URL or contact the form creator.
         </p>
       </motion.div>
     );
   }
 
-  // Thank you screen - animated completion
+  // Thank you screen - dark theme with animations
   if (completed) {
     return (
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="h-screen flex flex-col items-center justify-center bg-neutral-50 px-4"
+        className="h-screen flex flex-col items-center justify-center bg-[#0a0a0a] px-4"
       >
         <motion.div
           initial={{ scale: 0 }}
@@ -307,7 +306,7 @@ export default function PublicFormPage({ params }: PageProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="text-6xl font-bold text-black mb-6"
+          className="text-6xl font-bold text-white mb-6"
         >
           Thank you!
         </motion.h1>
@@ -315,7 +314,7 @@ export default function PublicFormPage({ params }: PageProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="text-2xl text-neutral-700 mb-16"
+          className="text-2xl text-neutral-300 mb-16"
         >
           Your response has been submitted.
         </motion.p>
@@ -335,11 +334,11 @@ export default function PublicFormPage({ params }: PageProps) {
   const progress = ((currentQuestionIndex + 1) / form.questions.length) * 100;
 
   return (
-    <div className="h-screen flex flex-col bg-white">
-      {/* Progress bar - smooth animated indicator with pure black */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-neutral-100 z-50">
+    <div className="h-screen flex flex-col bg-[#0a0a0a] relative">
+      {/* Progress bar at BOTTOM - Typeform signature teal */}
+      <div className="fixed bottom-0 left-0 right-0 h-1 bg-neutral-800 z-50">
         <motion.div
-          className="h-full bg-black"
+          className="h-full bg-[#05CE78]"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
@@ -347,8 +346,8 @@ export default function PublicFormPage({ params }: PageProps) {
       </div>
 
       {/* Main question area */}
-      <div className="flex-1 flex items-center justify-center px-8">
-        <div className="w-full max-w-2xl">
+      <div className="flex-1 flex items-center justify-center px-8 pb-8">
+        <div className="w-full max-w-3xl">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentQuestion.id}
@@ -358,27 +357,27 @@ export default function PublicFormPage({ params }: PageProps) {
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               {/* Question number */}
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-8">
                 <span className="text-sm font-medium text-neutral-500">
                   {currentQuestionIndex + 1} → {form.questions.length}
                 </span>
                 {currentQuestion.required && (
-                  <span className="text-sm text-red-600">*</span>
+                  <span className="text-sm text-[#05CE78]">*</span>
                 )}
               </div>
 
-              {/* Question title and description - Oversized Typeform style */}
-              <h1 className="text-6xl font-bold text-black mb-8 leading-tight">
+              {/* Question title - HUGE Typeform style */}
+              <h1 className="text-6xl font-bold text-white mb-10 leading-tight tracking-tight">
                 {currentQuestion.title}
               </h1>
               {currentQuestion.description && (
-                <p className="text-2xl text-neutral-700 mb-16 leading-relaxed">
+                <p className="text-xl text-neutral-400 mb-16 leading-relaxed">
                   {currentQuestion.description}
                 </p>
               )}
 
               {/* Question input */}
-              <div className="mb-6">
+              <div className="mb-8">
                 <QuestionInput
                   question={currentQuestion}
                   value={currentValue}
@@ -387,27 +386,27 @@ export default function PublicFormPage({ params }: PageProps) {
                 />
               </div>
 
-              {/* Error message - inline with helpful icon */}
+              {/* Error message - Typeform style */}
               {error && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="mb-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg flex items-start gap-3"
+                  className="mb-6 p-4 bg-red-500/10 border-l-4 border-red-500 rounded-r flex items-start gap-3"
                 >
-                  <span className="text-red-600 text-xl">⚠️</span>
+                  <span className="text-red-400 text-xl">⚠️</span>
                   <div className="flex-1">
-                    <p className="text-red-900 font-medium text-sm">{error}</p>
+                    <p className="text-red-200 font-medium text-sm">{error}</p>
                   </div>
                 </motion.div>
               )}
 
-              {/* Action buttons */}
+              {/* Action buttons - Typeform teal button */}
               <div className="flex items-center gap-4">
                 {currentQuestionIndex > 0 && (
                   <button
                     onClick={handlePrevious}
-                    className="px-6 py-3 text-neutral-600 hover:text-neutral-900 transition-colors flex items-center gap-2"
+                    className="px-6 py-3 text-neutral-400 hover:text-white transition-colors flex items-center gap-2"
                   >
                     <span>↑</span>
                     <span>Back</span>
@@ -416,19 +415,20 @@ export default function PublicFormPage({ params }: PageProps) {
                 <button
                   onClick={handleNext}
                   disabled={submitting}
-                  className="px-8 py-3 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                  className="px-8 py-3.5 bg-[#05CE78] text-white rounded-md hover:bg-[#04b869] transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold flex items-center gap-2 shadow-lg shadow-[#05CE78]/20"
                 >
-                  {submitting ? "Submitting..." : currentQuestionIndex === form.questions.length - 1 ? "Submit" : "OK"}
+                  <span>✓</span>
+                  <span>{submitting ? "Submitting..." : currentQuestionIndex === form.questions.length - 1 ? "Submit" : "OK"}</span>
                 </button>
-                <span className="text-sm text-neutral-400">
+                <span className="text-sm text-neutral-500">
                   {currentQuestion.type === "long_text" ? (
                     <>
-                      <kbd className="px-2 py-1 bg-white border border-neutral-300 rounded text-xs mr-1">Shift+Enter</kbd>
-                      for new line, <kbd className="px-2 py-1 bg-white border border-neutral-300 rounded text-xs">Enter ↵</kbd> to continue
+                      <kbd className="px-2 py-1 bg-neutral-800 border border-neutral-700 rounded text-xs mr-1">Shift+Enter</kbd>
+                      for new line, <kbd className="px-2 py-1 bg-neutral-800 border border-neutral-700 rounded text-xs">Enter ↵</kbd> to continue
                     </>
                   ) : (
                     <>
-                      press <kbd className="px-2 py-1 bg-white border border-neutral-300 rounded text-xs">Enter ↵</kbd>
+                      press <kbd className="px-2 py-1 bg-neutral-800 border border-neutral-700 rounded text-xs">Enter ↵</kbd>
                     </>
                   )}
                 </span>
@@ -456,7 +456,7 @@ function QuestionInput({
   onChange: (value: string) => void;
   onSubmit: () => void;
 }) {
-  // Short text
+  // Short text - underline only, dark theme
   if (question.type === "short_text") {
     return (
       <input
@@ -466,12 +466,12 @@ function QuestionInput({
         onKeyDown={(e) => e.key === "Enter" && onSubmit()}
         placeholder="Type your answer here..."
         autoFocus
-        className="w-full px-0 py-3 text-2xl border-b-2 border-neutral-300 focus:border-neutral-900 bg-transparent outline-none transition-colors placeholder:text-neutral-400"
+        className="w-full px-0 py-4 text-3xl border-b-2 border-neutral-700 focus:border-[#05CE78] bg-transparent outline-none transition-colors placeholder:text-neutral-600 text-white font-light"
       />
     );
   }
 
-  // Long text - Shift+Enter for newlines, Enter to advance
+  // Long text - minimal border, dark theme
   if (question.type === "long_text") {
     return (
       <textarea
@@ -488,12 +488,12 @@ function QuestionInput({
         placeholder="Type your answer here... (Shift+Enter for new line)"
         rows={6}
         autoFocus
-        className="w-full px-4 py-3 text-lg border border-neutral-300 rounded-lg focus:border-neutral-900 outline-none transition-colors resize-none placeholder:text-neutral-400"
+        className="w-full px-4 py-3 text-xl bg-neutral-900/50 border border-neutral-700 rounded-lg focus:border-[#05CE78] outline-none transition-colors resize-none placeholder:text-neutral-600 text-white"
       />
     );
   }
 
-  // Email
+  // Email - underline only, dark theme
   if (question.type === "email") {
     return (
       <input
@@ -503,12 +503,12 @@ function QuestionInput({
         onKeyDown={(e) => e.key === "Enter" && onSubmit()}
         placeholder="name@example.com"
         autoFocus
-        className="w-full px-0 py-3 text-2xl border-b-2 border-neutral-300 focus:border-neutral-900 bg-transparent outline-none transition-colors placeholder:text-neutral-400"
+        className="w-full px-0 py-4 text-3xl border-b-2 border-neutral-700 focus:border-[#05CE78] bg-transparent outline-none transition-colors placeholder:text-neutral-600 text-white font-light"
       />
     );
   }
 
-  // Number
+  // Number - underline only, dark theme
   if (question.type === "number") {
     const settings = question.settings_json || {};
     return (
@@ -520,10 +520,10 @@ function QuestionInput({
           onKeyDown={(e) => e.key === "Enter" && onSubmit()}
           placeholder="Enter a number"
           autoFocus
-          className="w-full px-0 py-3 text-2xl border-b-2 border-neutral-300 focus:border-neutral-900 bg-transparent outline-none transition-colors placeholder:text-neutral-400"
+          className="w-full px-0 py-4 text-3xl border-b-2 border-neutral-700 focus:border-[#05CE78] bg-transparent outline-none transition-colors placeholder:text-neutral-600 text-white font-light"
         />
         {(settings.min !== undefined || settings.max !== undefined) && (
-          <p className="text-sm text-neutral-500 mt-2">
+          <p className="text-sm text-neutral-500 mt-3">
             {settings.min !== undefined && settings.max !== undefined
               ? `Between ${settings.min} and ${settings.max}`
               : settings.min !== undefined
@@ -535,11 +535,12 @@ function QuestionInput({
     );
   }
 
-  // Multiple choice
+  // Multiple choice - TYPEFORM SIGNATURE LETTER KEYS (A, B, C, D)
   if (question.type === "multiple_choice") {
+    const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
     return (
       <div className="space-y-3">
-        {question.options.map((option) => (
+        {question.options.map((option, index) => (
           <button
             key={option.id}
             onClick={() => {
@@ -549,22 +550,21 @@ function QuestionInput({
             }}
             className={`w-full flex items-center gap-4 p-5 border-2 rounded-lg transition-all text-left ${
               value === option.label
-                ? "border-neutral-900 bg-neutral-50"
-                : "border-neutral-300 hover:border-neutral-400"
+                ? "border-[#05CE78] bg-[#05CE78]/10"
+                : "border-neutral-700 hover:border-neutral-600 bg-neutral-900/30"
             }`}
           >
-            <div
-              className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-                value === option.label
-                  ? "border-neutral-900 bg-neutral-900"
-                  : "border-neutral-400"
-              }`}
-            >
-              {value === option.label && (
-                <div className="w-2 h-2 bg-white rounded-full" />
-              )}
-            </div>
-            <span className="text-lg font-medium text-neutral-900">
+            {/* Letter key - Typeform iconic style */}
+            <span className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded border text-sm font-bold ${
+              value === option.label
+                ? "border-[#05CE78] text-[#05CE78]"
+                : "border-neutral-600 text-neutral-500"
+            }`}>
+              {letters[index]}
+            </span>
+            <span className={`text-xl font-medium ${
+              value === option.label ? "text-white" : "text-neutral-300"
+            }`}>
               {option.label}
             </span>
           </button>
@@ -573,7 +573,7 @@ function QuestionInput({
     );
   }
 
-  // Dropdown - enhanced with better styling
+  // Dropdown - dark theme
   if (question.type === "dropdown") {
     return (
       <select
@@ -584,11 +584,11 @@ function QuestionInput({
           // but for dropdowns, users might want to change their selection
         }}
         autoFocus
-        className="w-full px-4 py-4 text-lg border-2 border-neutral-300 rounded-lg focus:border-neutral-900 outline-none transition-colors bg-white cursor-pointer hover:border-neutral-400"
+        className="w-full px-4 py-4 text-xl bg-neutral-900/50 border-2 border-neutral-700 rounded-lg focus:border-[#05CE78] outline-none transition-colors text-white cursor-pointer hover:border-neutral-600"
       >
-        <option value="" disabled>Select an option...</option>
+        <option value="" disabled className="bg-neutral-900">Select an option...</option>
         {question.options.map((option) => (
-          <option key={option.id} value={option.label}>
+          <option key={option.id} value={option.label} className="bg-neutral-900">
             {option.label}
           </option>
         ))}
@@ -596,7 +596,7 @@ function QuestionInput({
     );
   }
 
-  // Yes/No
+  // Yes/No - dark theme with teal accent
   if (question.type === "yes_no") {
     return (
       <div className="flex gap-4">
@@ -608,10 +608,10 @@ function QuestionInput({
               // Auto-advance after selection
               setTimeout(onSubmit, 300);
             }}
-            className={`flex-1 px-8 py-6 text-xl font-medium border-2 rounded-lg transition-all ${
+            className={`flex-1 px-8 py-6 text-xl font-semibold border-2 rounded-lg transition-all ${
               value === option
-                ? "border-neutral-900 bg-neutral-900 text-white"
-                : "border-neutral-300 hover:border-neutral-400 text-neutral-900"
+                ? "border-[#05CE78] bg-[#05CE78] text-white"
+                : "border-neutral-700 hover:border-neutral-600 text-neutral-300 bg-neutral-900/30"
             }`}
           >
             {option === "yes" ? "Yes" : "No"}
@@ -621,14 +621,14 @@ function QuestionInput({
     );
   }
 
-  // Rating
+  // Rating - dark theme
   if (question.type === "rating") {
     const max = question.settings_json?.max || 5;
     const currentRating = parseInt(value) || 0;
 
     return (
       <div className="space-y-6">
-        <div className="flex gap-2 justify-center">
+        <div className="flex gap-3 justify-center">
           {Array.from({ length: max }, (_, i) => i + 1).map((rating) => (
             <button
               key={rating}
@@ -637,8 +637,8 @@ function QuestionInput({
                 // Auto-advance after selection
                 setTimeout(onSubmit, 300);
               }}
-              className={`w-16 h-16 flex items-center justify-center text-4xl transition-transform hover:scale-110 ${
-                rating <= currentRating ? "opacity-100" : "opacity-30"
+              className={`w-16 h-16 flex items-center justify-center text-4xl transition-all hover:scale-110 ${
+                rating <= currentRating ? "opacity-100 scale-105" : "opacity-30 grayscale"
               }`}
             >
               ⭐
