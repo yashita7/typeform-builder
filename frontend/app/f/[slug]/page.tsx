@@ -106,23 +106,20 @@ export default function PublicFormPage({ params }: PageProps) {
     }
   }, [currentQuestionIndex, form]);
 
-  function handleNext(valueOverride?: string) {
+  function handleNext() {
     if (!form) return;
     
     const currentQuestion = form.questions[currentQuestionIndex];
     
-    // Use the provided value or fall back to state - this prevents stale state bugs
-    const valueToValidate = valueOverride !== undefined ? valueOverride : currentValue;
-    
     // Validate current answer
-    const validationError = validateAnswer(currentQuestion, valueToValidate);
+    const validationError = validateAnswer(currentQuestion, currentValue);
     if (validationError) {
       setError(validationError);
       return;
     }
     
     // Save the answer
-    updateAnswer(currentQuestion.id, valueToValidate);
+    updateAnswer(currentQuestion.id, currentValue);
     
     // Set direction for animation
     setDirection("forward");
@@ -457,7 +454,7 @@ function QuestionInput({
   question: Question;
   value: string;
   onChange: (value: string) => void;
-  onSubmit: (valueOverride?: string) => void;
+  onSubmit: () => void;
 }) {
   // Short text - underline only, dark theme
   if (question.type === "short_text") {
@@ -547,10 +544,9 @@ function QuestionInput({
           <button
             key={option.id}
             onClick={() => {
-              const selectedValue = option.label;
-              onChange(selectedValue);
-              // Auto-advance after selection - pass the new value directly to avoid stale state
-              setTimeout(() => onSubmit(selectedValue), 300);
+              onChange(option.label);
+              // Auto-advance after selection
+              setTimeout(onSubmit, 300);
             }}
             className={`w-full flex items-center gap-4 p-5 border-2 rounded-lg transition-all text-left ${
               value === option.label
@@ -609,8 +605,8 @@ function QuestionInput({
             key={option}
             onClick={() => {
               onChange(option);
-              // Auto-advance after selection - pass the new value directly to avoid stale state
-              setTimeout(() => onSubmit(option), 300);
+              // Auto-advance after selection
+              setTimeout(onSubmit, 300);
             }}
             className={`flex-1 px-8 py-6 text-xl font-semibold border-2 rounded-lg transition-all ${
               value === option
@@ -637,10 +633,9 @@ function QuestionInput({
             <button
               key={rating}
               onClick={() => {
-                const selectedValue = rating.toString();
-                onChange(selectedValue);
-                // Auto-advance after selection - pass the new value directly to avoid stale state
-                setTimeout(() => onSubmit(selectedValue), 300);
+                onChange(rating.toString());
+                // Auto-advance after selection
+                setTimeout(onSubmit, 300);
               }}
               className={`w-16 h-16 flex items-center justify-center text-4xl transition-all hover:scale-110 ${
                 rating <= currentRating ? "opacity-100 scale-105" : "opacity-30 grayscale"
