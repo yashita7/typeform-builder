@@ -1,0 +1,73 @@
+╔══════════════════════════════════════════════════════════════════╗
+║                    DEPLOYMENT URL TRACKER                        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+FILL IN AS YOU DEPLOY:
+
+┌──────────────────────────────────────────────────────────────────┐
+│ BACKEND (Render.com)                                             │
+└──────────────────────────────────────────────────────────────────┘
+URL: https://_____________________________________.onrender.com
+
+Test: https://_____________________________________.onrender.com/docs
+✓ Should show: FastAPI documentation
+
+
+┌──────────────────────────────────────────────────────────────────┐
+│ FRONTEND (Vercel.com)                                            │
+└──────────────────────────────────────────────────────────────────┘
+URL: https://_____________________________________.vercel.app
+
+Test: Visit URL
+✓ Should show: Dashboard with 2 forms
+
+
+┌──────────────────────────────────────────────────────────────────┐
+│ ENVIRONMENT VARIABLES                                            │
+└──────────────────────────────────────────────────────────────────┘
+Render → CORS_ORIGINS: https://_____________________________________.vercel.app
+
+Vercel → NEXT_PUBLIC_API_URL: https://_____________________________________.onrender.com
+
+
+┌──────────────────────────────────────────────────────────────────┐
+│ QUICK UPDATE COMMANDS                                            │
+└──────────────────────────────────────────────────────────────────┘
+# Update README with your Vercel URL:
+./update_readme_with_urls.sh "https://YOUR-VERCEL-URL.vercel.app"
+
+# Commit and push:
+git add README.md
+git commit -m "Add live demo URL"
+git push origin main
+
+
+┌──────────────────────────────────────────────────────────────────┐
+│ TEST CHECKLIST                                                   │
+└──────────────────────────────────────────────────────────────────┘
+In Incognito Window:
+
+□ Dashboard loads at Vercel URL
+□ 2 seeded forms visible
+□ Create new form works
+□ Edit form → Add question works
+□ Publish form works
+□ Copy shareable link
+□ NEW incognito tab → Fill form works
+□ Thank you screen shows
+□ Back to dashboard → Responses show
+□ No console errors (F12)
+
+
+┌──────────────────────────────────────────────────────────────────┐
+│ DONE?                                                            │
+└──────────────────────────────────────────────────────────────────┘
+□ README.md updated (line 5)
+□ Changes committed to GitHub
+□ All tests passed ✓
+
+Public Demo URL: https://_____________________________________.vercel.app
+
+╔══════════════════════════════════════════════════════════════════╗
+║  Time to deploy: ~15 minutes  |  Follow: DEPLOY_NOW.md         ║
+╚══════════════════════════════════════════════════════════════════╝

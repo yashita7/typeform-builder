@@ -307,7 +307,7 @@ export default function PublicFormPage({ params }: PageProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="text-3xl font-semibold text-neutral-900 mb-3"
+          className="text-6xl font-bold text-black mb-6"
         >
           Thank you!
         </motion.h1>
@@ -315,7 +315,7 @@ export default function PublicFormPage({ params }: PageProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="text-lg text-neutral-600 mb-8"
+          className="text-2xl text-neutral-700 mb-16"
         >
           Your response has been submitted.
         </motion.p>
@@ -335,11 +335,11 @@ export default function PublicFormPage({ params }: PageProps) {
   const progress = ((currentQuestionIndex + 1) / form.questions.length) * 100;
 
   return (
-    <div className="h-screen flex flex-col bg-neutral-50">
-      {/* Progress bar - smooth animated indicator */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-neutral-200 z-50">
+    <div className="h-screen flex flex-col bg-white">
+      {/* Progress bar - smooth animated indicator with pure black */}
+      <div className="fixed top-0 left-0 right-0 h-1 bg-neutral-100 z-50">
         <motion.div
-          className="h-full bg-neutral-900"
+          className="h-full bg-black"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
@@ -367,12 +367,12 @@ export default function PublicFormPage({ params }: PageProps) {
                 )}
               </div>
 
-              {/* Question title and description */}
-              <h1 className="text-4xl font-semibold text-neutral-900 mb-4">
+              {/* Question title and description - Oversized Typeform style */}
+              <h1 className="text-6xl font-bold text-black mb-8 leading-tight">
                 {currentQuestion.title}
               </h1>
               {currentQuestion.description && (
-                <p className="text-lg text-neutral-600 mb-8">
+                <p className="text-2xl text-neutral-700 mb-16 leading-relaxed">
                   {currentQuestion.description}
                 </p>
               )}

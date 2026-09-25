@@ -124,39 +124,38 @@ export default function FormsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        {/* Header with create button - Enhanced */}
-        <div className="flex items-center justify-between mb-12">
+    <div className="min-h-screen bg-white">
+      <div className="max-w-6xl mx-auto px-8 py-16">
+        {/* Header with create button - Minimal Typeform style */}
+        <div className="flex items-center justify-between mb-20">
           <div>
-            <h1 className="text-4xl font-semibold text-neutral-900 mb-2">
+            <h1 className="text-5xl font-bold text-black mb-4">
               My Forms
             </h1>
-            <p className="text-lg text-neutral-600">
+            <p className="text-xl text-neutral-600">
               {forms.length > 0 ? `${forms.length} ${forms.length === 1 ? 'form' : 'forms'}` : 'Create and manage your forms'}
             </p>
           </div>
 
           <button
             onClick={() => setIsCreateModalOpen(true)}
-            className="px-6 py-3 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-all duration-300 font-medium shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2"
+            className="px-8 py-4 bg-black text-white rounded-lg hover:bg-neutral-800 transition-all duration-200 font-medium text-lg shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-4"
           >
             + Create form
           </button>
         </div>
 
-        {/* Loading state - Enhanced with skeleton */}
+        {/* Loading state - Minimal skeleton */}
         {loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="space-y-8">
             {[1, 2, 3].map((i) => (
               <div key={i} className="animate-pulse">
-                <div className="bg-white border border-neutral-200 rounded-xl p-6 h-64">
-                  <div className="h-6 bg-neutral-200 rounded w-3/4 mb-4"></div>
-                  <div className="h-4 bg-neutral-100 rounded w-1/2 mb-8"></div>
-                  <div className="h-10 bg-neutral-100 rounded mb-2"></div>
-                  <div className="flex gap-2 mt-4">
-                    <div className="h-10 bg-neutral-100 rounded flex-1"></div>
-                    <div className="h-10 bg-neutral-100 rounded w-10"></div>
+                <div className="bg-white border border-neutral-200 rounded-2xl p-10 h-48">
+                  <div className="h-8 bg-neutral-100 rounded w-2/3 mb-6"></div>
+                  <div className="h-4 bg-neutral-50 rounded w-1/3 mb-8"></div>
+                  <div className="flex gap-4">
+                    <div className="h-12 bg-neutral-50 rounded flex-1"></div>
+                    <div className="h-12 bg-neutral-50 rounded w-12"></div>
                   </div>
                 </div>
               </div>
@@ -164,28 +163,28 @@ export default function FormsPage() {
           </div>
         )}
 
-        {/* Empty state - Enhanced */}
+        {/* Empty state - Clean and minimal */}
         {!loading && forms.length === 0 && (
-          <div className="text-center py-20 bg-white border-2 border-dashed border-neutral-300 rounded-2xl">
-            <div className="text-7xl mb-6">📝</div>
-            <h3 className="text-2xl font-semibold text-neutral-900 mb-3">
+          <div className="text-center py-32 bg-white border border-neutral-200 rounded-3xl">
+            <div className="text-8xl mb-10">📝</div>
+            <h3 className="text-3xl font-bold text-black mb-4">
               No forms yet
             </h3>
-            <p className="text-neutral-600 mb-8 text-lg">
+            <p className="text-neutral-600 mb-12 text-xl max-w-md mx-auto">
               Create your first form to start collecting responses
             </p>
             <button
               onClick={() => setIsCreateModalOpen(true)}
-              className="px-8 py-4 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-all duration-300 font-medium text-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2"
+              className="px-10 py-5 bg-black text-white rounded-xl hover:bg-neutral-800 transition-all duration-200 font-medium text-lg shadow-md hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-4"
             >
               + Create your first form
             </button>
           </div>
         )}
 
-        {/* Forms grid - Enhanced spacing */}
+        {/* Forms list - Single column with large cards and generous spacing */}
         {!loading && forms.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="space-y-8">
             {forms.map((form) => (
               <FormCard
                 key={form.id}

@@ -118,7 +118,7 @@ def seed_database():
                     {"question": q2_form1, "value": "5"},
                     {"question": q3_form1, "value": "Friend Referral"},
                     {"question": q4_form1, "value": "Great service! Very satisfied with everything."},
-                    {"question": q5_form1, "value": "Yes"}
+                    {"question": q5_form1, "value": "yes"}
                 ]
             },
             {
@@ -128,7 +128,7 @@ def seed_database():
                     {"question": q2_form1, "value": "4"},
                     {"question": q3_form1, "value": "Search Engine"},
                     {"question": q4_form1, "value": ""},
-                    {"question": q5_form1, "value": "Yes"}
+                    {"question": q5_form1, "value": "yes"}
                 ]
             },
             {
@@ -138,7 +138,7 @@ def seed_database():
                     {"question": q2_form1, "value": "3"},
                     {"question": q3_form1, "value": "Social Media"},
                     {"question": q4_form1, "value": "The service was okay, but response time could be faster."},
-                    {"question": q5_form1, "value": "No"}
+                    {"question": q5_form1, "value": "no"}
                 ]
             }
         ]

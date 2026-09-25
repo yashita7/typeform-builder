@@ -66,9 +66,9 @@ export function FormCard({
 
   return (
     <>
-      <div className="group bg-white border-2 border-neutral-200 rounded-2xl p-6 hover:border-neutral-300 hover:shadow-xl transition-all duration-300">
-        {/* Title (editable on click) */}
-        <div className="mb-4">
+      <div className="group bg-white border border-neutral-200 rounded-3xl p-10 hover:border-neutral-300 hover:shadow-lg transition-all duration-200">
+        {/* Title (editable on click) - Larger and bolder */}
+        <div className="mb-6">
           {isEditing ? (
             <input
               type="text"
@@ -83,39 +83,39 @@ export function FormCard({
                 }
               }}
               autoFocus
-              className="w-full text-xl font-semibold text-neutral-900 border-2 border-neutral-900 rounded-lg px-3 py-2 focus:outline-none"
+              className="w-full text-3xl font-bold text-black border-2 border-black rounded-lg px-4 py-3 focus:outline-none"
             />
           ) : (
             <h3
               onClick={() => setIsEditing(true)}
-              className="text-xl font-semibold text-neutral-900 cursor-text hover:text-neutral-700 transition-colors line-clamp-2 min-h-[3.5rem]"
+              className="text-3xl font-bold text-black cursor-text hover:text-neutral-700 transition-colors line-clamp-2 min-h-[4.5rem]"
             >
               {form.title}
             </h3>
           )}
         </div>
 
-        {/* Status badge and response count */}
-        <div className="flex items-center gap-3 mb-6">
+        {/* Status badge and response count - More generous spacing */}
+        <div className="flex items-center gap-4 mb-8">
           <span
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
+            className={`px-4 py-2 rounded-full text-sm font-medium ${
               form.status === "published"
-                ? "bg-green-100 text-green-700"
-                : "bg-neutral-100 text-neutral-600"
+                ? "bg-green-50 text-green-700 border border-green-200"
+                : "bg-neutral-50 text-neutral-600 border border-neutral-200"
             }`}
           >
             {form.status === "published" ? "● Published" : "○ Draft"}
           </span>
           <a
             href={`/forms/${form.id}/responses`}
-            className="text-sm text-neutral-500 hover:text-neutral-900 transition-colors font-medium"
+            className="text-base text-neutral-500 hover:text-black transition-colors font-medium"
           >
             {form.response_count}{" "}
             {form.response_count === 1 ? "response" : "responses"}
           </a>
         </div>
 
-        {/* Shareable link (if published) */}
+        {/* Shareable link (if published) - More prominent */}
         <AnimatePresence>
           {publicUrl && (
             <motion.div
@@ -123,19 +123,19 @@ export function FormCard({
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="mb-4 overflow-hidden"
+              className="mb-6 overflow-hidden"
             >
-              <div className="p-3 bg-neutral-50 rounded-lg border border-neutral-200">
-                <div className="flex items-center gap-2">
+              <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200">
+                <div className="flex items-center gap-3">
                   <input
                     type="text"
                     value={publicUrl}
                     readOnly
-                    className="flex-1 text-sm text-neutral-600 bg-transparent border-none focus:outline-none truncate"
+                    className="flex-1 text-sm text-neutral-700 bg-transparent border-none focus:outline-none truncate font-mono"
                   />
                   <button
                     onClick={handleCopyLink}
-                    className="px-3 py-1.5 text-sm font-medium text-neutral-700 hover:text-neutral-900 hover:bg-white rounded transition-all"
+                    className="px-4 py-2 text-sm font-medium text-neutral-800 hover:text-black hover:bg-white rounded-lg transition-all border border-transparent hover:border-neutral-200"
                   >
                     📋 Copy
                   </button>
@@ -145,12 +145,12 @@ export function FormCard({
           )}
         </AnimatePresence>
 
-        {/* Actions */}
-        <div className="flex items-center gap-2">
+        {/* Actions - Larger buttons with more padding */}
+        <div className="flex items-center gap-3">
           {/* Edit (go to builder) */}
           <a
             href={`/forms/${form.id}/edit`}
-            className="flex-1 px-4 py-2.5 bg-neutral-900 text-white text-sm font-semibold rounded-lg hover:bg-neutral-800 active:scale-95 transition-all text-center shadow-sm"
+            className="flex-1 px-6 py-4 bg-black text-white text-base font-semibold rounded-xl hover:bg-neutral-800 active:scale-98 transition-all text-center shadow-sm"
           >
             Edit
           </a>
@@ -159,14 +159,14 @@ export function FormCard({
           {form.status === "draft" ? (
             <button
               onClick={() => onPublish(form.id)}
-              className="px-4 py-2.5 bg-neutral-100 text-neutral-700 text-sm font-semibold rounded-lg hover:bg-neutral-200 active:scale-95 transition-all"
+              className="px-6 py-4 bg-neutral-100 text-neutral-800 text-base font-semibold rounded-xl hover:bg-neutral-200 active:scale-98 transition-all border border-neutral-200"
             >
               Publish
             </button>
           ) : (
             <button
               onClick={() => onUnpublish(form.id)}
-              className="px-4 py-2.5 bg-neutral-100 text-neutral-700 text-sm font-semibold rounded-lg hover:bg-neutral-200 active:scale-95 transition-all"
+              className="px-6 py-4 bg-neutral-100 text-neutral-800 text-base font-semibold rounded-xl hover:bg-neutral-200 active:scale-98 transition-all border border-neutral-200"
             >
               Unpublish
             </button>
@@ -175,11 +175,11 @@ export function FormCard({
           {/* Duplicate */}
           <button
             onClick={() => onDuplicate(form.id)}
-            className="px-3 py-2.5 bg-neutral-100 text-neutral-700 text-sm font-semibold rounded-lg hover:bg-neutral-200 active:scale-95 transition-all"
+            className="px-4 py-4 bg-neutral-100 text-neutral-800 rounded-xl hover:bg-neutral-200 active:scale-98 transition-all border border-neutral-200"
             title="Duplicate"
           >
             <svg
-              className="w-4 h-4"
+              className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -196,11 +196,11 @@ export function FormCard({
           {/* Delete */}
           <button
             onClick={handleDeleteClick}
-            className="px-3 py-2.5 bg-neutral-100 text-red-600 text-sm font-semibold rounded-lg hover:bg-red-50 hover:text-red-700 active:scale-95 transition-all"
+            className="px-4 py-4 bg-neutral-100 text-red-600 rounded-xl hover:bg-red-50 hover:text-red-700 active:scale-98 transition-all border border-neutral-200"
             title="Delete"
           >
             <svg
-              className="w-4 h-4"
+              className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -216,43 +216,43 @@ export function FormCard({
         </div>
       </div>
 
-      {/* Delete confirmation dialog with animation */}
+      {/* Delete confirmation dialog with animation - Cleaner design */}
       <AnimatePresence>
         {showDeleteConfirm && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 px-4"
             onClick={() => setShowDeleteConfirm(false)}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={{ opacity: 0, scale: 0.96, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl"
+              exit={{ opacity: 0, scale: 0.96, y: 10 }}
+              transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-white rounded-3xl p-10 max-w-md w-full shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="text-4xl mb-4">⚠️</div>
-              <h3 className="text-2xl font-semibold text-neutral-900 mb-3">
+              <div className="text-5xl mb-6">⚠️</div>
+              <h3 className="text-3xl font-bold text-black mb-4">
                 Delete form?
               </h3>
-              <p className="text-neutral-600 mb-6 leading-relaxed">
-                This will permanently delete <strong>"{form.title}"</strong> and all its responses.
+              <p className="text-neutral-700 mb-8 leading-relaxed text-lg">
+                This will permanently delete <strong className="text-black">"{form.title}"</strong> and all its responses.
                 This action cannot be undone.
               </p>
-              <div className="flex gap-3">
+              <div className="flex gap-4">
                 <button
                   onClick={() => setShowDeleteConfirm(false)}
-                  className="flex-1 px-5 py-3 bg-neutral-100 text-neutral-700 font-semibold rounded-lg hover:bg-neutral-200 active:scale-95 transition-all"
+                  className="flex-1 px-6 py-4 bg-neutral-100 text-neutral-800 font-semibold rounded-xl hover:bg-neutral-200 active:scale-98 transition-all border border-neutral-200"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleDeleteConfirm}
-                  className="flex-1 px-5 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 active:scale-95 transition-all shadow-sm"
+                  className="flex-1 px-6 py-4 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 active:scale-98 transition-all shadow-sm"
                 >
                   Delete
                 </button>

@@ -67,8 +67,8 @@ def validate_answer(question: Question, value: str) -> tuple[bool, str]:
             return False, f"'{question.title}' must be a number"
     
     elif question.type == "yes_no":
-        if value not in ["Yes", "No"]:
-            return False, f"'{question.title}' must be 'Yes' or 'No'"
+        if value.lower() not in ["yes", "no"]:
+            return False, f"'{question.title}' must be 'yes' or 'no'"
     
     elif question.type == "rating":
         try:
