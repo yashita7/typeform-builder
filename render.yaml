@@ -1,0 +1,30 @@
+# Render deployment configuration
+# This file enables one-click deployment to Render
+# https://render.com/docs/infrastructure-as-code
+
+services:
+  # Backend API Service
+  - type: web
+    name: typeform-clone-api
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: CORS_ORIGINS
+        sync: false
+        # Set this to your deployed frontend URL in Render dashboard
+        # Example: https://your-app.vercel.app
+      - key: DATABASE_PATH
+        value: /opt/render/project/data/typeform.db
+      - key: PYTHON_VERSION
+        value: 3.11.0
+    disk:
+      name: typeform-data
+      mountPath: /opt/render/project/data
+      sizeGB: 1
+
+# Note: Frontend should be deployed to Vercel separately
+# See README.md for deployment instructions
